@@ -75,8 +75,8 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
  * Minimal base styles.
  */
 
-/* Always force a scrollbar in non-IE */
-html { overflow-y: scroll; }
+/* Prevent mobile zooming while remain desktop zooming: github.com/shichuan/mobile-html5-boilerplate/issues/closed#issue/14 */
+html { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; } 
 
 /* j.mp/webkit-tap-highlight-color */
 a:link { -webkit-tap-highlight-color: #FF5E99; }
@@ -109,12 +109,12 @@ pre {
   padding: 15px;
 }
 
-.ie6 legend, .ie7 legend { margin-left: -7px; } 
+.ie6 legend, .ie7 legend, .iem7 legend { margin-left: -7px; } 
 
 /* Align checkboxes, radios, text inputs with their label by: Thierry Koblentz tjkdesign.com/ez-css/css/base.css  */
 input[type="radio"] { vertical-align: text-bottom; }
 input[type="checkbox"] { vertical-align: bottom; }
-.ie7 input[type="checkbox"] { vertical-align: baseline; }
+.ie7 input[type="checkbox"], .iem7 input[type="checkbox"] { vertical-align: baseline; }
 .ie6 input { vertical-align: text-bottom; }
 
 /* Hand cursor on clickable input elements */
@@ -144,9 +144,13 @@ input:invalid, textarea:invalid {
 ::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
 ::selection { background:#FF5E99; color:#fff; text-shadow: none; }
 
+/* Make buttons play nice in IE:
+   www.viget.com/inspire/styling-the-button-element-in-internet-explorer/ */
+button {  width: auto; overflow: visible; }
+
 /* Bicubic resizing for non-native sized IMG:
    code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
-.ie7 img { -ms-interpolation-mode: bicubic; }
+.ie7 img, .iem7 img { -ms-interpolation-mode: bicubic; }
 
 
 /**
@@ -163,6 +167,25 @@ body, select, input, textarea {
 /* Headers (h1, h2, etc) have no default font-size or margin; define those yourself */
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
+/* 
+ * Helper classes 
+ */
+ 
+/* prevent callout */
+.nocallout {-webkit-touch-callout: none;}
+
+/* Text overflow with ellipsis */
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* A hack for HTML5 contenteditable attribute on mobile */
+textarea.contenteditable {-webkit-appearance: none;}
+
+/* A workaround for S60 3.x and 5.0 devices which do not animated gif images if they have been set as display: none */
+.gifhidden {position: absolute; left: -100%;}
 
 /**
  * Primary styles
@@ -212,31 +235,27 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
-
-
-/**
- * Media queries for responsive design.
- *
- * These follow after primary styles so they will successfully override.
+/*
+ * Media queries for responsive design https://github.com/shichuan/mobile-html5-boilerplate/wiki/The-Style
  */
 
-@media all and (orientation:portrait) {
-  /* Style adjustments for portrait mode goes here */
+/* iPhones, Android */
+@media only screen and (min-width: 480px) {
 
 }
-
-@media all and (orientation:landscape) {
-  /* Style adjustments for landscape mode goes here */
+/* iPads */
+@media only screen and (min-width: 768px) {
 
 }
+/* Netbooks */
+@media only screen and (min-width: 992px) {
+  html { overflow-y: scroll; }
+}
+/* and up */
+@media only screen and (min-width: 1382px) {
+}
 
-/* Grade-A Mobile Browsers (Opera Mobile, Mobile Safari, Android Chrome)
-   consider this: www.cloudfour.com/css-media-query-for-mobile-is-fools-gold/ */
-@media screen and (max-device-width: 480px) {
-
-
-  /* Uncomment if you don't want iOS and WinMobile to mobile-optimize the text for you: j.mp/textsizeadjust */
-  /* html { -webkit-text-size-adjust:none; -ms-text-size-adjust:none; } */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
 }
 
 
